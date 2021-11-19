@@ -19,7 +19,7 @@ import '@tensorflow/tfjs-backend-webgl';
 import * as mpHands from '@mediapipe/hands';
 
 import * as tfjsWasm from '@tensorflow/tfjs-backend-wasm';
-
+import * as params from './shared/params';
 tfjsWasm.setWasmPaths(
     `https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@${
         tfjsWasm.version_wasm}/dist/`);
@@ -27,7 +27,6 @@ tfjsWasm.setWasmPaths(
 import * as handdetection from '@tensorflow-models/hand-pose-detection';
 
 import {Camera} from './camera';
-import {setupDatGui} from './option_panel';
 import {STATE} from './shared/params';
 import {setupStats} from './shared/stats_panel';
 import {setBackendAndEnvFlags} from './shared/util';
@@ -167,12 +166,15 @@ async function app() {
   // Gui content will change depending on which model is in the query string.
   const urlParams = new URLSearchParams(window.location.search);
   if (!urlParams.has('model')) {
-    alert('Cannot find model in the query string.');
-    return;
+      urlParams.set("model", "mediapipe_hands");
   }
-
-  await setupDatGui(urlParams);
-
+  urlParams.set("type", "lite");
+  //await setupDatGui(urlParams);
+  params.STATE.model = handdetection.SupportedModels.MediaPipeHands;
+  params.STATE.backend = "tfjs-webgl";
+  params.STATE.modelConfig = {...params.MEDIAPIPE_HANDS_CONFIG};
+  params.STATE.modelConfig.type = "lite";
+  params.STATE.modelConfig.maxNumHands = 1;
   stats = setupStats();
 
   camera = await Camera.setupCamera(STATE.camera);

@@ -32,20 +32,20 @@ export async function setupDatGui(urlParams) {
   gui.domElement.id = 'gui';
 
   // The camera folder contains options for video settings.
-  const cameraFolder = gui.addFolder('Camera');
-  const fpsController = cameraFolder.add(params.STATE.camera, 'targetFPS');
-  fpsController.onFinishChange((_) => {
-    params.STATE.isTargetFPSChanged = true;
-  });
-  const sizeController = cameraFolder.add(
-      params.STATE.camera, 'sizeOption', Object.keys(params.VIDEO_SIZE));
-  sizeController.onChange(_ => {
-    params.STATE.isSizeOptionChanged = true;
-  });
-  cameraFolder.open();
+  //const cameraFolder = gui.addFolder('Camera');
+  //const fpsController = cameraFolder.add(params.STATE.camera, 'targetFPS');
+  //fpsController.onFinishChange((_) => {
+   // params.STATE.isTargetFPSChanged = true;
+  //});
+  //const sizeController = cameraFolder.add(
+      //params.STATE.camera, 'sizeOption', Object.keys(params.VIDEO_SIZE));
+ // sizeController.onChange(_ => {
+    //params.STATE.isSizeOptionChanged = true;
+  //});
+  //cameraFolder.open();
 
   // The model folder contains options for model selection.
-  const modelFolder = gui.addFolder('Model');
+  //const modelFolder = gui.addFolder('Model');
 
   const model = urlParams.get('model');
   let type = urlParams.get('type');
@@ -68,24 +68,28 @@ export async function setupDatGui(urlParams) {
       break;
   }
 
-  const modelController = modelFolder.add(
-      params.STATE, 'model', Object.values(handdetection.SupportedModels));
+  //const modelController = modelFolder.add(
+      //params.STATE, 'model', Object.values(handdetection.SupportedModels));
 
-  modelController.onChange(_ => {
-    params.STATE.isModelChanged = true;
-    showModelConfigs(modelFolder);
-    showBackendConfigs(backendFolder);
-  });
+  //modelController.onChange(_ => {
+    //params.STATE.isModelChanged = true;
+    //showModelConfigs(modelFolder);
+    params.STATE.backend = "tfjs-webgl";
+    params.STATE.modelConfig = {...params.MEDIAPIPE_HANDS_CONFIG};
+    params.STATE.modelConfig.type = type != null ? type : 'full';
+    params.STATE.modelConfig.maxNumHands = 1;
+    //showBackendConfigs(backendFolder);
+  //});
 
-  showModelConfigs(modelFolder, type, maxNumHands);
+  //showModelConfigs(modelFolder, type, maxNumHands);
 
-  modelFolder.open();
+  //modelFolder.open();
 
-  const backendFolder = gui.addFolder('Backend');
+  //const backendFolder = gui.addFolder('Backend');
 
-  showBackendConfigs(backendFolder);
+  //showBackendConfigs(backendFolder);
 
-  backendFolder.open();
+  //backendFolder.open();
 
   return gui;
 }

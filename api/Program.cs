@@ -1,8 +1,21 @@
 using SquidGame.Api.Hubs;
+const string FRONTEND = "frontend";
 
 var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+builder.Services.AddCors(Options => {
+    Options.AddPolicy(FRONTEND, builder => {
+        builder.WithOrigins("http://localhost:1234") 
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials()
+        ;
+    });
+});
+
 builder.Services.AddSignalR();
-app.MapGet("/", () => "Welcome to the Game!");
-app.MapHub<GameHub>("/gameHub");
+
+var app = builder.Build();
+app.UseRouting();
+app.UseCors(FRONTEND);
+app.UseEndpoints(endpoints =>endpoints.MapHub<GameHub>("/gameHub"));
 app.Run();

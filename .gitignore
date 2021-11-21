@@ -1,3 +1,6 @@
 node_modules/
 .cache/
-dist/
+dist/.cache
+bin/
+obj/
+node_modules/

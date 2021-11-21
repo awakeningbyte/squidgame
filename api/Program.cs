@@ -4,7 +4,9 @@ const string FRONTEND = "frontend";
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(Options => {
     Options.AddPolicy(FRONTEND, builder => {
-        builder.WithOrigins("http://localhost:1234") 
+        builder
+        .AllowAnyOrigin()
+        //.WithOrigins("http://localhost:1234") 
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials()

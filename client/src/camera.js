@@ -52,9 +52,6 @@ function createScatterGLContext(selectors) {
   };
 }
 
-const scatterGLCtxtLeftHand = createScatterGLContext('#scatter-gl-container-left');
-const scatterGLCtxtRightHand = createScatterGLContext('#scatter-gl-container-right');
-
 export class Camera {
   constructor() {
     this.video = document.getElementById('video');
@@ -117,15 +114,6 @@ export class Camera {
     camera.ctx.translate(camera.video.videoWidth, 0);
     camera.ctx.scale(-1, 1);
 
-    for (const ctxt of [scatterGLCtxtLeftHand, scatterGLCtxtRightHand]) {
-      ctxt.scatterGLEl.style =
-          `width: ${videoWidth / 2}px; height: ${videoHeight / 2}px;`;
-      ctxt.scatterGL.resize();
-
-      ctxt.scatterGLEl.style.display =
-          params.STATE.modelConfig.render3D ? 'inline-block' : 'none';
-    }
-
     return camera;
   }
 
@@ -156,8 +144,8 @@ export class Camera {
     for (let i = 0; i < hands.length; ++i) {
       // Third hand and onwards scatterGL context is set to null since we
       // don't render them.
-      const ctxt = [scatterGLCtxtLeftHand, scatterGLCtxtRightHand][i];
-      this.drawResult(hands[i], ctxt);
+      //const ctxt = [scatterGLCtxtLeftHand, scatterGLCtxtRightHand][i];
+      this.drawResult(hands[i]);
     }
   }
 
@@ -235,13 +223,6 @@ export class Camera {
     const dataset =
         new scatter.ScatterGL.Dataset([...pointsData, ...ANCHOR_POINTS]);
 
-    ctxt.scatterGL.setPointColorer((i) => {
-      if (keypoints[i] == null || keypoints[i].score < scoreThreshold) {
-        // hide anchor points and low-confident points.
-        return '#ffffff';
-      }
-      return handedness === 'Left' ? '#ff0000' : '#0000ff';
-    });
 
     if (!ctxt.scatterGLHasInitialized) {
       ctxt.scatterGL.render(dataset);

@@ -16,16 +16,12 @@ limitations under the License.
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0, user-scalable=no">
   <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
   <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-  <link href="/style.e308ff8e.css" rel="stylesheet">
-<script src="/style.e308ff8e.js"></script></head>
+  <link href="/style.c61ab535.css" rel="stylesheet">
+<script src="/style.c61ab535.js"></script></head>
 <body>
-  <div id="stats"></div>
-  <button id="startBtn">Start</button>
-  <div id="clock"> <span id="countdownSpan" class="seconds"></span></div>
   <div id="main">
     <div class="container">
       <div class="canvas-wrapper">
-        <canvas id="monitor"></canvas>
         <canvas id="output"></canvas>
         <video id="video" playsinline="" style="
           -webkit-transform: scaleX(-1);
@@ -36,12 +32,15 @@ limitations under the License.
           ">
         </video>
       </div>
+      <button id="startBtn">Start</button>
 
+      <div id="stats"></div>
+  <div id="clock"> <span id="countdownSpan" class="seconds"></span></div>
+        <canvas id="monitor"></canvas>
       
     </div>
   </div>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.6/dat.gui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
 <script src="/src.a2b27638.js"></script>
 

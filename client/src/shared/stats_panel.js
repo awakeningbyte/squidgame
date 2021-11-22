@@ -16,7 +16,7 @@
  */
 export function setupStats() {
   const stats = new Stats();
-  stats.customFpsPanel = stats.addPanel(new Stats.Panel('FPS', '#0ff', '#002'));
+  stats.customFpsPanel = stats.addPanel(new Stats.Panel('speed', '#0ff', '#002'));
   stats.showPanel(stats.domElement.children.length - 1);
 
   const parent = document.getElementById('stats');

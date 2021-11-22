@@ -11,19 +11,40 @@ limitations under the License.
 ==============================================================================-->
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="/material.min.6a1439ac.css">
+  <script src="/material.min.c10a2112.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link href="/style.c61ab535.css" rel="stylesheet">
-<script src="/style.c61ab535.js"></script></head>
+<script src="/material.min.6a1439ac.js"></script><script src="/style.c61ab535.js"></script></head>
+
 <body>
-  <div id="main">
-    <header>Squid Game</header>
-    <div class="container panel" id="signal-panel">
-      <canvas id="monitor" style="background-color: aqua;"></canvas>
+  <div id="main" class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+      <div class="mdl-layout__header-row">
+        <!-- Title -->
+        <span class="mdl-layout-title">Squid Game</span>
+        <!-- Add spacer, to align navigation to the right -->
+        <div class="mdl-layout-spacer"></div>
+        <!-- Navigation -->
+      </div>
+      
+    </header>
+    <div class="mdl-layout__drawer">
+      <span class="mdl-layout-title">Settings</span>
     </div>
-    <div class="container" id="video-panel">
-      <div class="canvas-wrapper">
+    <!-- Right aligned menu below button -->
+    <main class="mdl-grid mdl-grid--no-spacing">
+
+      <div class="mdl-cell mdl-cell--12-col  mdl-cell--stretch" id="signal-panel">
+        <canvas id="monitor"></canvas>
+
+      </div>
+      <div class="mdl-cell mdl-cell--6-col canvas-wrapper " id="video-panel">
+        
         <canvas id="output"></canvas>
         <video id="video" playsinline="" style="
           -webkit-transform: scaleX(-1);
@@ -33,15 +54,13 @@ limitations under the License.
           height: auto;
           ">
         </video>
+
       </div>
-      
-    </div>
-    <div class="container panel" id="foot-panel">
+      <div class="mdl-cell mdl-cell--1-col" id="stats"></div>
 
-      <button id="startBtn">Start</button>
+        <button id="startBtn" class="mdl-button mdl-button--raised mdl-button--accent">Start Play</button>
 
-      <div id="stats"></div>
-    </div>
+    </main>
   </div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>

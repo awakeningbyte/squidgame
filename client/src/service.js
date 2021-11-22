@@ -93,7 +93,6 @@ function endEstimateHandsStats(dist) {
   const panelUpdateMilliseconds = 100;
   if (endInferenceTime - lastPanelUpdate >= panelUpdateMilliseconds) {
     let speed = (inferenceTimeSum / numInferences) /500;
-    console.log(dist)
     if (dist >10) {
       speed = Math.max(speed, 1)
     }

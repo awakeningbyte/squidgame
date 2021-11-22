@@ -14,13 +14,15 @@ limitations under the License.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0, user-scalable=no">
-  <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
-  <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
   <link href="src/style.css" rel="stylesheet">
 </head>
 <body>
   <div id="main">
-    <div class="container">
+    <header>Squid Game</header>
+    <div class="container panel" id="signal-panel">
+      <canvas id="monitor" style="background-color: aqua;"></canvas>
+    </div>
+    <div class="container" id="video-panel">
       <div class="canvas-wrapper">
         <canvas id="output"></canvas>
         <video id="video" playsinline style="
@@ -32,12 +34,13 @@ limitations under the License.
           ">
         </video>
       </div>
+      
+    </div>
+    <div class="container panel" id="foot-panel">
+
       <button id="startBtn">Start</button>
 
       <div id="stats"></div>
-  <div id="clock"> <span id="countdownSpan" class="seconds"></span></div>
-        <canvas id="monitor"></canvas>
-      
     </div>
   </div>
 </body>

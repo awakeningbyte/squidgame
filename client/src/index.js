@@ -27,7 +27,7 @@ connection.onclose(async () => {
 });
 
 // Start the connection.
-start();
+//start();
 service.run();
 let startBtn= document.getElementById("startBtn")
 

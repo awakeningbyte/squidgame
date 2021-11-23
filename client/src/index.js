@@ -1,4 +1,5 @@
 import * as signalR from '@microsoft/signalr'
+import { FailedToNegotiateWithServerError } from '@microsoft/signalr/dist/esm/Errors'
 import { init } from '@tensorflow/tfjs-backend-wasm/dist/backend_wasm'
 import { conv2dTranspose } from '@tensorflow/tfjs-core'
 import * as service from './service'
@@ -12,44 +13,50 @@ let progress = document.getElementById("progress")
 let canvas = document.getElementById("monitor")
 let output = document.getElementById("output")
 let player = document.getElementById("player")
+//let playerCtx = player.getContext("2d")
+//let playerImage = new Image
+//playerImage.style.width=15
+//playerImage.src = "IlNam.jpg"
 let video = document.getElementById("video")
 let total_length = progress.width;
+function youWon() {
+    clearInterval(intv)
+    started = false;
+    const congrSound = new Audio("Congratulations.wav");
+    congrSound.play()
+    startBtn.textContent = "Play again"
+    startBtn.style.visibility = "visible"
+    progressPanel.style.visibility = "hidden"
+    
+}
+function gameOver() {
+    clearInterval(intv)
+    const buzzSound = new Audio("BuzzerWav.wav");
+    buzzSound.play()
+    output.style.visibility="hidden" 
+    started = false;
+    startBtn.textContent = "Try again"
+    startBtn.style.visibility = "visible"
+}
+
+function playerMove(e) {
+    traveled +=(e.detail.dist +window.innerWidth + window.innerWidth) /  (output.width + output.height)   
+    if (traveled > (window.innerWidth * 0.05)) {
+        //playerCtx.clearRect(0,0, player.width, player.height);
+        //playerCtx.drawImage(playerImage, traveled,0)
+        player.style.transform=`translateX(${traveled}px)`;
+    }
+}
+
 canvas.addEventListener('move', function(e) {
-    if (intv) {
+    if (started && intv) {
         if (red ) {
-            clearInterval(intv)
-            output.style.visibility="hidden" 
-            started = false;
+            gameOver()
         } else if (started) {
-            traveled +=(e.detail.dist +window.innerWidth + window.innerWidth) /  (output.width + output.height) / 8
-            
-            player.style.transform=`translateX(${traveled}px)`;
+            playerMove(e)
         }
     }
-
 })
-const connection = new signalR.HubConnectionBuilder()
-    .withUrl("https://localhost:7091/gamehub")
-    .configureLogging(signalR.LogLevel.Information)
-    .build();
-
-async function start() {
-    try {
-        await connection.start();
-        //console.log("SignalR Connected.");
-        //infoBar.textContent = "game room connected."
-        //await service()
-    } catch (err) {
-        console.log(err);
-        setTimeout(start, 5000);
-    }
-};
-
-connection.onclose(async () => {
-    infoBar.textContent = "game room disconnected."
-    await start();
-
-});
 
 // Start the connection.
 //start();
@@ -108,7 +115,7 @@ function countDown(n,str) {
             startBtn.style.visibility="visible"
             progressPanel.style.visibility  = "hidden"
             started = false
-        
+            gameOver();
         }
         else {
             ctx.font = '18px serif';
@@ -136,7 +143,9 @@ function countDown(n,str) {
 
         }
   
-
+        if (traveled >= progress.clientWidth) {
+            youWon();
+        }
         t++;
         
     }, 1000)

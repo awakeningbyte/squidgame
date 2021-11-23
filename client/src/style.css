@@ -31,6 +31,10 @@ main {
 #video-panel{
   
 }
+
+#player {
+  background-color: gray;
+}
 .float-right {
   float: right;
 }

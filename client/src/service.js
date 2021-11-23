@@ -37,6 +37,7 @@ let rafId;
 let preHand = null
 let preTime = null
 let traveled = 0
+let canvas = document.getElementById("monitor")
 //let preTime = null
 
 async function createDetector() {
@@ -90,7 +91,7 @@ function endEstimateHandsStats(dist) {
   inferenceTimeSum += dist;
   ++numInferences;
 
-  const panelUpdateMilliseconds = 100;
+  const panelUpdateMilliseconds = 200;
   if (endInferenceTime - lastPanelUpdate >= panelUpdateMilliseconds) {
     let speed = (inferenceTimeSum / numInferences) /500;
     if (dist >10) {
@@ -100,6 +101,11 @@ function endEstimateHandsStats(dist) {
     numInferences = 0;
     stats.customFpsPanel.update(speed, 100/* maxValue */);
     //stats.customSpeedPanel.update(speed, 3000)
+    if (dist >50) {
+
+      const event = new CustomEvent('move', {detail:{traveled, dist, speed}});
+      canvas.dispatchEvent(event)
+    }
     lastPanelUpdate = endInferenceTime;
   }
 }

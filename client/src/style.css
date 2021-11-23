@@ -28,7 +28,9 @@ main {
   width: 250px;
   float: right;
 }
-
+#video-panel{
+  
+}
 .float-right {
   float: right;
 }

@@ -40,8 +40,9 @@ function gameOver() {
 }
 
 function playerMove(e) {
-    traveled +=(e.detail.dist +window.innerWidth + window.innerWidth) /  (output.width + output.height)   
-    if (traveled > (window.innerWidth * 0.05)) {
+    let dist =(e.detail.dist /(2 * (output.width + output.height))) * progress.clientWidth 
+    traveled +=dist
+    if (dist > 5) {
         //playerCtx.clearRect(0,0, player.width, player.height);
         //playerCtx.drawImage(playerImage, traveled,0)
         player.style.transform=`translateX(${traveled}px)`;

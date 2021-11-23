@@ -38,7 +38,6 @@ let preHand = null
 let preTime = null
 let traveled = 0
 let canvas = document.getElementById("monitor")
-//let preTime = null
 
 async function createDetector() {
       const runtime = STATE.backend.split('-')[0];
@@ -48,40 +47,6 @@ async function createDetector() {
         maxHands: STATE.modelConfig.maxNumHands
       });
 }
-
-async function checkGuiUpdate() {
-  if (STATE.isTargetFPSChanged || STATE.isSizeOptionChanged) {
-    camera = await Camera.setupCamera(STATE.camera);
-    STATE.isTargetFPSChanged = false;
-    STATE.isSizeOptionChanged = false;
-  }
-
-  if (STATE.isModelChanged || STATE.isFlagChanged || STATE.isBackendChanged) {
-    STATE.isModelChanged = true;
-
-    window.cancelAnimationFrame(rafId);
-
-    if (detector != null) {
-      detector.dispose();
-    }
-
-    if (STATE.isFlagChanged || STATE.isBackendChanged) {
-      await setBackendAndEnvFlags(STATE.flags, STATE.backend);
-    }
-
-    try {
-      detector = await createDetector(STATE.model);
-    } catch (error) {
-      detector = null;
-      alert(error);
-    }
-
-    STATE.isFlagChanged = false;
-    STATE.isBackendChanged = false;
-    STATE.isModelChanged = false;
-  }
-}
-
 function beginEstimateHandsStats() {
   startInferenceTime = (performance || Date).now();
 }
@@ -93,15 +58,15 @@ function endEstimateHandsStats(dist) {
 
   const panelUpdateMilliseconds = 100;
   if (endInferenceTime - lastPanelUpdate >= panelUpdateMilliseconds) {
-    let speed = (inferenceTimeSum / numInferences) /500;
-    if (dist >10) {
+    let speed = (inferenceTimeSum / numInferences) ;
+    if (dist > 10) {
       speed = Math.max(speed, 1)
     }
     inferenceTimeSum = 0;
     numInferences = 0;
     stats.customFpsPanel.update(speed, 100/* maxValue */);
     //stats.customSpeedPanel.update(speed, 3000)
-    if (dist >50) {
+    if (dist > 5) {
 
       const event = new CustomEvent('move', {detail:{traveled, dist, speed}});
       canvas.dispatchEvent(event)
@@ -110,23 +75,15 @@ function endEstimateHandsStats(dist) {
   }
 }
 function calDist(p1, p2) {
-  return Math.pow((p1.x - p2.x),2) + Math.pow((p1.y-p2.y),2)
-}
-function calHand(hand) {
-  return calDist(hand.keypoints[0], hand.keypoints[4]) +
-    calDist(hand.keypoints[0], hand.keypoints[8]) +
-    calDist(hand.keypoints[0], hand.keypoints[12]) +
-    calDist(hand.keypoints[0], hand.keypoints[16]) +
-    calDist(hand.keypoints[0], hand.keypoints[20])
-
+  return Math.sqrt( Math.pow((p1.x - p2.x),2) + Math.pow((p1.y-p2.y),2))
 }
 function calHands(hand1, hand2) {
-  return calDist(hand1.keypoints[0], hand2.keypoints[0]) +
+  return (calDist(hand1.keypoints[0], hand2.keypoints[0]) +
     calDist(hand1.keypoints[4], hand2.keypoints[4]) +
     calDist(hand1.keypoints[8], hand2.keypoints[8]) +
     calDist(hand1.keypoints[12], hand2.keypoints[12]) +
     calDist(hand1.keypoints[16], hand2.keypoints[16]) +
-    calDist(hand1.keypoints[20], hand2.keypoints[20])
+    calDist(hand1.keypoints[20], hand2.keypoints[20])) / 6
 }
 async function renderResult() {
   if (camera.video.readyState < 2) {
@@ -142,11 +99,10 @@ async function renderResult() {
   // Detector can be null if initialization failed (for example when loading
   // from a URL that does not exist).
   if (detector != null) {
-    // FPS only counts the time it takes to finish estimateHands.
+    // Speed only counts the time it takes to finish estimateHands.
     beginEstimateHandsStats();
 
     let dist =0
-    //let speed =0
     // Detectors can throw errors, for example when using custom URLs that
     // contain a model that doesn't provide the expected output.
     try {

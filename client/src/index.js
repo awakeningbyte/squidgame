@@ -1,37 +1,29 @@
-import * as signalR from '@microsoft/signalr'
-import { FailedToNegotiateWithServerError } from '@microsoft/signalr/dist/esm/Errors'
-import { init } from '@tensorflow/tfjs-backend-wasm/dist/backend_wasm'
-import { conv2dTranspose } from '@tensorflow/tfjs-core'
 import * as service from './service'
+import  {Page} from './page'
+
+const page = new Page()
 const GAME_TIME=60
 let started = false
 let intv = null;
 let traveled = 0
-let infoBar = document.getElementById("info")
-let progressPanel = document.getElementById("progress-panel")
-let progress = document.getElementById("progress")
-let canvas = document.getElementById("monitor")
-let output = document.getElementById("output")
-let player = document.getElementById("player")
-//let playerCtx = player.getContext("2d")
-//let playerImage = new Image
-//playerImage.style.width=15
-//playerImage.src = "IlNam.jpg"
-let video = document.getElementById("video")
-let total_length = progress.width;
+let startBtn= document.getElementById("startBtn")
+
+const audio = new Audio("medias/DollSing.wav");
+let red = true
+
 function youWon() {
     clearInterval(intv)
     started = false;
-    const congrSound = new Audio("Congratulations.wav");
+    const congrSound = new Audio("medias/Congratulations.wav");
     congrSound.play()
     startBtn.textContent = "Play again"
     startBtn.style.visibility = "visible"
     progressPanel.style.visibility = "hidden"
-    
 }
+
 function gameOver() {
     clearInterval(intv)
-    const buzzSound = new Audio("BuzzerWav.wav");
+    const buzzSound = new Audio("medias/BuzzerWav.wav");
     buzzSound.play()
     output.style.visibility="hidden" 
     started = false;
@@ -49,7 +41,7 @@ function playerMove(e) {
     }
 }
 
-canvas.addEventListener('move', function(e) {
+page.canvas.addEventListener('move', function(e) {
     if (started && intv) {
         if (red ) {
             gameOver()
@@ -63,10 +55,6 @@ canvas.addEventListener('move', function(e) {
 //start();
 service.run();
 
-let startBtn= document.getElementById("startBtn")
-
-const audio = new Audio("DollSing.wav");
-let red = true
 
 audio.volume = 0.2;
 audio.load();
@@ -83,7 +71,7 @@ audio.ontimeupdate = function() {
 }
 startBtn.addEventListener('click', () => {
     startBtn.style.visibility = "hidden"
-    progressPanel.style.visibility ="visible"
+    page.progressPanel.style.visibility ="visible"
     countDown(3,"" )
     //initializeClock('clockdiv', deadline);
 }, false)
@@ -94,12 +82,12 @@ function countDown(n,str) {
     audio.pause()
     //setInterval(play, 8000);
     intv = setInterval(()=> {            
-        var ctx = canvas.getContext("2d");
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
+        var ctx = page.canvas.getContext("2d");
+        const centerX = page.canvas.width / 2;
+        const centerY = page.canvas.height / 2;
         const radius = 25;
         //ctx.font = "25px Arial";
-        ctx.clearRect(0,0, canvas.width, canvas.height)
+        ctx.clearRect(0,0, page.canvas.width, page.canvas.height)
 
         let countdown =(GAME_TIME - t+n);
         if (t < n) {
@@ -114,7 +102,7 @@ function countDown(n,str) {
         } else if (countdown == 0) {
             clearInterval(intv);
             startBtn.style.visibility="visible"
-            progressPanel.style.visibility  = "hidden"
+            page.progressPanel.style.visibility  = "hidden"
             started = false
             gameOver();
         }
@@ -144,7 +132,7 @@ function countDown(n,str) {
 
         }
   
-        if (traveled >= progress.clientWidth) {
+        if (traveled >= page.progress.clientWidth) {
             youWon();
         }
         t++;
@@ -157,9 +145,9 @@ function play() {
 }
 
 window.onload= function() {
-    canvas.width= window.outerWidth;
+    page.canvas.width= window.outerWidth;
 }
 
 window.onresize =function() {
-    canvas.width= window.outerWidth;
+    page.canvas.width= window.outerWidth;
 }

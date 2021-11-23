@@ -41,7 +41,7 @@
     "eslint": "^4.19.1",
     "eslint-config-google": "^0.9.1",
     "parcel-bundler": "1.12.5",
-    "parcel-plugin-static-files-copy": "^2.5.1",
+    "parcel-plugin-static-files-copy": "^2.6.0",
     "yalc": "~1.0.0-pre.50"
   },
   "resolutions": {
@@ -63,5 +63,8 @@
   },
   "eslintIgnore": [
     "dist/"
-  ]
+  ],
+  "staticFiles": {
+   "staticPath": ["assets"]
+  }
 }

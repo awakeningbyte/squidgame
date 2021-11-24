@@ -1,5 +1,6 @@
 import * as service from './service'
 import  {Page} from './page'
+import { math } from '@tensorflow/tfjs-core'
 
 const page = new Page()
 const GAME_TIME=60
@@ -10,30 +11,35 @@ let startBtn= document.getElementById("startBtn")
 
 const audio = new Audio("medias/DollSing.wav");
 let red = true
-
+function startGame() {
+    page.showGame();
+    player.style.transform=`translateX(0)`;
+    traveled =0;
+}
 function youWon() {
-    clearInterval(intv)
     started = false;
+    clearInterval(intv)
     const congrSound = new Audio("medias/Congratulations.wav");
     congrSound.play()
-    startBtn.textContent = "Play again"
-    startBtn.style.visibility = "visible"
-    progressPanel.style.visibility = "hidden"
+    page.showWon();
 }
 
 function gameOver() {
+    started = false;
     clearInterval(intv)
     const buzzSound = new Audio("medias/BuzzerWav.wav");
     buzzSound.play()
+    page.showLost()
     output.style.visibility="hidden" 
-    started = false;
-    startBtn.textContent = "Try again"
-    startBtn.style.visibility = "visible"
 }
 
 function playerMove(e) {
+    if (!started) {
+        return;
+    }
     let dist =(e.detail.dist /(2 * (output.width + output.height))) * progress.clientWidth 
     traveled +=dist
+    traveled = Math.floor(traveled)
     if (dist > 5) {
         //playerCtx.clearRect(0,0, player.width, player.height);
         //playerCtx.drawImage(playerImage, traveled,0)
@@ -42,10 +48,11 @@ function playerMove(e) {
 }
 
 page.canvas.addEventListener('move', function(e) {
-    if (started && intv) {
+    let currentTime = (performance || Date).now()
+    if (started && intv && (e.timeStamp - currentTime) < 100) {
         if (red ) {
             gameOver()
-        } else if (started) {
+        } else {
             playerMove(e)
         }
     }
@@ -65,15 +72,13 @@ audio.onplay = function() {
 audio.ontimeupdate = function() {
     //console.log(audio.currentTime)
     if (audio.currentTime >5.25) {
-        red = true
-        
+        red = true 
     }
+    
 }
 startBtn.addEventListener('click', () => {
-    startBtn.style.visibility = "hidden"
-    page.progressPanel.style.visibility ="visible"
+    startGame()
     countDown(3,"" )
-    //initializeClock('clockdiv', deadline);
 }, false)
 
 function countDown(n,str) {
@@ -93,7 +98,7 @@ function countDown(n,str) {
         if (t < n) {
 
             ctx.font = '28px serif';
-            ctx.fillStyle = "white";
+            ctx.fillStyle = "#333";
             ctx.fillText("READY " + ( n-t), 20, 50);
         } else if (t == n) {
             ctx.fillText( "GO ! ", 20, 50);
@@ -107,21 +112,20 @@ function countDown(n,str) {
             gameOver();
         }
         else {
-            ctx.font = '18px serif';
+            ctx.font = '28px serif';
             if (countdown < 10) {
                 ctx.fillStyle = "red";
-            } else {
-                ctx.fillStyle = "white";
+            } 
 
-            }
-            ctx.fillText("Time: " + countdown, 10, 50);
+            
+            ctx.fillText("00:"+("0"+countdown).slice(-2), 80, centerY);
             if (audio.ended) {
                 audio.play()
                 red =false
             }
                 
                 ctx.beginPath();
-                ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+                ctx.arc(centerX*2 - 80, centerY, radius, 0, 2 * Math.PI, false);
                 if (red) {
                     ctx.fillStyle = 'red';
                 }  else {
@@ -145,9 +149,9 @@ function play() {
 }
 
 window.onload= function() {
-    page.canvas.width= window.outerWidth;
+    page.canvas.clientWidth= `${window.outerWidth}px`;
 }
 
 window.onresize =function() {
-    page.canvas.width= window.outerWidth;
+    page.canvas.clientWidth= `${window.outerWidth}px`;
 }

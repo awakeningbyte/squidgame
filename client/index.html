@@ -23,19 +23,16 @@ limitations under the License.
 
 <body>
   <div id="main" class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-    <header class="mdl-layout__header">
+    <header class="game-header">
       <div class="mdl-layout__header-row">
+        <img class="logo" src="assets/images/octocat.svg">
         <!-- Title -->
-        <span class="mdl-layout-title">Squid Game</span>
+        <span class="title-text">Squid Game-tfjs</span>
         <!-- Add spacer, to align navigation to the right -->
-        <div class="mdl-layout-spacer"></div>
         <!-- Navigation -->
       </div>
       
     </header>
-    <div class="mdl-layout__drawer">
-      <span class="mdl-layout-title">Settings</span>
-    </div>
     <!-- Right aligned menu below button -->
     <main class="mdl-grid mdl-grid--no-spacing">
 
@@ -43,20 +40,22 @@ limitations under the License.
         <canvas id="monitor"></canvas>
 
       </div>
-      <div class="mdl-cell mdl-cell--8-col canvas-wrapper " id="video-panel">
-        
+      <div class="mdl-cell mdl-cell--8-col canvas-wrapper " >
+       <div id="video-panel">
         <canvas id="output"></canvas>
+        <div  id="stats"></div>
         <video id="video" playsinline style="
           -webkit-transform: scaleX(-1);
           transform: scaleX(-1);
           visibility: hidden;
           width: auto;
           height: auto;
+          display: none;
           ">
         </video>
+        </div>
 
       </div>
-      <div class="mdl-cell mdl-cell--4-col" id="stats"></div>
 
       <div class="mdl-cell mdl-cell--middle mdl-cell--12-col" id="progress-panel">
         <img id="player" src="assets/images/ilnami-small.jpg"/>

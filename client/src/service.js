@@ -65,10 +65,9 @@ function endEstimateHandsStats(dist) {
     inferenceTimeSum = 0;
     numInferences = 0;
     stats.customFpsPanel.update(speed, 100/* maxValue */);
-    //stats.customSpeedPanel.update(speed, 3000)
     if (dist > 5) {
-
-      const event = new CustomEvent('move', {detail:{traveled, dist, speed}});
+      
+      const event = new CustomEvent('move', {detail:{time:endInferenceTime, traveled, dist, speed}});
       canvas.dispatchEvent(event)
     }
     lastPanelUpdate = endInferenceTime;

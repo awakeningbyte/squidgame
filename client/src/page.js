@@ -11,6 +11,7 @@ export class Page {
         this.startBtn = document.getElementById("startBtn")
      }
      showGame() {
+        this.page.player.style.transform = `translateX(0)`;
         this.startBtn.style.visibility = "hidden"
         this.progressPanel.style.visibility ="visible"
      }
@@ -57,6 +58,14 @@ export class Page {
      }
      get baseline() {
          return (this.output.width + this.output.height)
+     }
+
+     set onMoveEvent(handler) {
+        this.canvas.addEventListener('move', handler)
+     }
+
+     set onPlayEvent(handler) {
+        this.startBtn.addEventListener('click', handler, false)
      }
 }
 

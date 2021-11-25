@@ -42,6 +42,15 @@ img.logo {
   background: url("../assets/images/loading.gif");
   background-size: cover;
 }
+
+#video-panel video {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  visibility: hidden;
+  width: auto;
+  height: auto;
+  display: none;
+}
 #progress-panel {
   visibility: hidden;
   padding: 20px;

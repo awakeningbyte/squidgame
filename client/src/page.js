@@ -3,6 +3,7 @@ export class Page {
         this.progressPanel = document.getElementById("progress-panel")
         this.progress = document.getElementById("progress")
         this.canvas = document.getElementById("monitor")
+        this.ctx = this.canvas.getContext("2d")
         this.output = document.getElementById("output")
         this.player = document.getElementById("player")
         this.video = document.getElementById("video")
@@ -30,4 +31,39 @@ export class Page {
         this.startBtn.style.visibility = "visible"
         this.progressPanel.style.visibility = "hidden"
      }
+
+     movePlayer(traveled) {
+        this.player.style.transform=`translateX(${traveled}px)`;
+     }
+
+     notify(font, color, text, x, y){
+         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+         this.ctx.font = font;
+         this.ctx.fillStyle = color;
+         this.ctx.fillText(text, x,y);
+     }
+     
+     showLight(red) {
+         this.ctx.clearRect(this.canvas.width /2, 0, this.canvas.width, this.canvas.height)
+         this.ctx.beginPath();
+         this.ctx.arc(this.canvas.width/2, this.canvas.height / 2, 50, 0, 2 * Math.PI, false);
+         if (red) {
+            this.ctx.fillStyle = 'red';
+         } else {
+            this.ctx.fillStyle = 'green';
+
+         }
+         this.ctx.fill();
+     }
+     get baseline() {
+         return (this.output.width + this.output.height)
+     }
+}
+
+window.onload= function() {
+   // page.canvas.clientWidth= `${window.outerWidth}px`;
+}
+
+window.onresize =function() {
+   //page.canvas.clientWidth= `${window.outerWidth}px`;
 }

@@ -11,7 +11,7 @@ export class Page {
         this.startBtn = document.getElementById("startBtn")
      }
      showGame() {
-        this.page.player.style.transform = `translateX(0)`;
+        this.player.style.transform = `translateX(0)`;
         this.startBtn.style.visibility = "hidden"
         this.progressPanel.style.visibility ="visible"
      }

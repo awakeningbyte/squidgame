@@ -92,6 +92,7 @@ export class Game {
     play(n) {
         audio.play()
         audio.pause()
+        debugger
         let  t =0 
         this.interval = setInterval(() => {
             let countdown = (this.duration - t + n);
@@ -109,7 +110,7 @@ export class Game {
             }
             else {
                 let text ="00:" + ("0" + countdown).slice(-2);
-                this.page.notify(MOTION,"red", text, 20, 50)
+                this.page.notify(MESSAGE_FONT,"red", text, 20, 50)
                 if (audio.ended) {
                     audio.play()
                 }

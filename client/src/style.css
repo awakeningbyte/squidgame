@@ -37,6 +37,10 @@ img.logo {
 
 #monitor {
   height: 80px;
+  background: aliceblue;
+  border: solid 2px;
+  width: 100%;
+
 }
 #video-panel {
   background: url("../assets/images/loading.gif");

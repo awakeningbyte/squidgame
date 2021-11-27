@@ -1,6 +1,6 @@
 const VOLUME_NUM = 0.5
 const READY_COUNT = 3
-const MUSIC_BREAK = 5.26
+const MUSIC_BREAK = 5.38
 const TIME_GAP = 100
 const THRESHOLD = 5
 const MESSAGE_FONT = '28px serif'
@@ -22,14 +22,11 @@ export class Game {
         this.page.onMoveEvent = (e) => {
             let currentTime = (performance || Date).now()
             if (this.started && this.interval && (e.timeStamp - currentTime) < TIME_GAP) {
-                setTimeout(()=> {
-                    if (this.red) {
-                        this.loss()
-                    } else {
-                        this.move(e)
-                    }
-
-                },0)
+                if (this.red) {
+                    this.loss()
+                } else {
+                    this.move(e)
+                }
             }
         }
 
@@ -42,11 +39,17 @@ export class Game {
 
         audio.onplay = () => {
             this.isRed = false;
+            this.showLight(false)
         }
         audio.ontimeupdate = () => {
             if (audio.currentTime > MUSIC_BREAK) {
-                this.isRed = true 
-            }    
+                this.isRed = true
+                this.page.showLight(true);
+                setTimeout(()=> this.isRed = true,0)
+            } else {
+                this.isRed = false
+                this.page.showLight(false)
+            }
         }
     }
     /**
@@ -58,7 +61,7 @@ export class Game {
     start() {
         this.page.showGame();
         this.traveled = 0;
-        
+
         this.play(READY_COUNT, "")
     }
 
@@ -92,30 +95,30 @@ export class Game {
     play(n) {
         audio.play()
         audio.pause()
-        debugger
-        let  t =0 
+        
+        let t = 0
         this.interval = setInterval(() => {
             let countdown = (this.duration - t + n);
             if (t < n) {
-                this.page.notify(MESSAGE_FONT, "#333" ,"READY " + (n - t), 20, 50)
+                this.page.notify(MESSAGE_FONT, "#333", "READY " + (n - t), 20, 50)
             } else if (t == n) {
                 this.page.notify(MESSAGE_FONT, "#333", "GO!", 20, 50)
                 this.started = true;
                 audio.play()
             } else if (countdown == 0) {
-                this.page.notify(MESSAGE_FONT,"red", "MOTION DETECTED", 20, 50)
+                this.page.notify(MESSAGE_FONT, "red", "MOTION DETECTED", 20, 50)
                 clearInterval(this.interval)
                 this.started = false
                 this.loss()
             }
             else {
-                let text ="00:" + ("0" + countdown).slice(-2);
-                this.page.notify(MESSAGE_FONT,"red", text, 20, 50)
+                let text = "00:" + ("0" + countdown).slice(-2);
+                this.page.notify(MESSAGE_FONT, "red", text, 20, 50)
                 if (audio.ended) {
                     audio.play()
                 }
 
-                this.page.showLight(this.red)
+                
             }
 
             if (this.traveled >= this.page.progress.clientWidth) {

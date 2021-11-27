@@ -34,13 +34,16 @@ img.logo {
   position: absolute;
   z-index: -1;   
 }
-
+#alert {
+  font-size:x-large;
+  margin: 10px;
+}
 #monitor {
   height: 80px;
-  background: aliceblue;
-  border: solid 2px;
+  display: block;
   width: 100%;
-
+  object-fit: contain;
+  margin: auto;
 }
 #video-panel {
   background: url("../assets/images/loading.gif");

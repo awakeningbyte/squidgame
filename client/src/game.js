@@ -3,7 +3,7 @@ const READY_COUNT = 3
 const MUSIC_BREAK = 5.38
 const TIME_GAP = 100
 const THRESHOLD = 5
-const MESSAGE_FONT = '28px serif'
+const MESSAGE_FONT = '32px serif'
 
 const congrSound = new Audio("medias/Congratulations.wav");
 const buzzSound = new Audio("medias/BuzzerWav.wav");
@@ -39,7 +39,7 @@ export class Game {
 
         audio.onplay = () => {
             this.isRed = false;
-            this.showLight(false)
+            this.page.showLight(false)
         }
         audio.ontimeupdate = () => {
             if (audio.currentTime > MUSIC_BREAK) {
@@ -84,7 +84,7 @@ export class Game {
         if (!this.started) {
             return;
         }
-        let dist = e.detail.dist * 375 / this.page.baseline
+        let dist = e.detail.dist * 425 / this.page.baseline
         this.traveled += dist
         this.traveled = Math.floor(this.traveled)
         if (dist > THRESHOLD) {
@@ -100,9 +100,9 @@ export class Game {
         this.interval = setInterval(() => {
             let countdown = (this.duration - t + n);
             if (t < n) {
-                this.page.notify(MESSAGE_FONT, "#333", "READY " + (n - t), 20, 50)
+                this.page.notify(MESSAGE_FONT, "#333", "READY " + (n - t), -10, 50)
             } else if (t == n) {
-                this.page.notify(MESSAGE_FONT, "#333", "GO!", 20, 50)
+                this.page.notify(MESSAGE_FONT, "#333", "GO!", -10, 50)
                 this.started = true;
                 audio.play()
             } else if (countdown == 0) {
@@ -113,7 +113,7 @@ export class Game {
             }
             else {
                 let text = "00:" + ("0" + countdown).slice(-2);
-                this.page.notify(MESSAGE_FONT, "red", text, 20, 50)
+                this.page.notify(MESSAGE_FONT, "red", text, 5, 50)
                 if (audio.ended) {
                     audio.play()
                 }

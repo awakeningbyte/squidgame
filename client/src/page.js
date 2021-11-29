@@ -52,23 +52,23 @@ export class Page {
    }
 
    showLight(red) {
-      this.ctx.clearRect(this.canvas.width / 2-100, 0, this.canvas.width, this.canvas.height)
+      this.ctx.clearRect(this.canvas.width / 2-50, 0, this.canvas.width, this.canvas.height)
       if (red) {
          this.ctx.beginPath();
-         this.ctx.arc(this.canvas.width / 2 -50, this.canvas.height / 2, 50, 0, 2 * Math.PI, false);
+         this.ctx.arc(this.canvas.width / 2 , this.canvas.height / 2, 50, 0, 2 * Math.PI, false);
          this.ctx.fillStyle = 'red';
          this.ctx.fill();
          this.ctx.beginPath();
-         this.ctx.arc(this.canvas.width / 2 +50, this.canvas.height / 2, 50, 0, 2 * Math.PI, false);
+         this.ctx.arc(this.canvas.width / 2 +100, this.canvas.height / 2, 50, 0, 2 * Math.PI, false);
          this.ctx.strokeStyle  = 'white';
          this.ctx.stroke();
       } else {
          this.ctx.beginPath();
-         this.ctx.arc(this.canvas.width / 2 -50, this.canvas.height / 2, 50, 0, 2 * Math.PI, false);
+         this.ctx.arc(this.canvas.width / 2 , this.canvas.height / 2, 50, 0, 2 * Math.PI, false);
          this.ctx.strokeStyle  = 'white';
          this.ctx.stroke();
          this.ctx.beginPath();
-         this.ctx.arc(this.canvas.width / 2+ 50, this.canvas.height / 2, 50, 0, 2 * Math.PI, false);
+         this.ctx.arc(this.canvas.width / 2+ 100, this.canvas.height / 2, 50, 0, 2 * Math.PI, false);
          this.ctx.fillStyle = 'green';
          this.ctx.fill();
       }

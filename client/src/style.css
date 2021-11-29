@@ -35,7 +35,10 @@ img.logo {
 }
 #alert {
   font-size:x-large;
+  font-weight: 600;
   margin: 10px;
+  padding: 5px;
+  margin-bottom: -40px;
 }
 #monitor {
   height: 80px;
@@ -63,11 +66,11 @@ img.logo {
   display: none;
 }
 #progress-panel {
-  visibility: visible;
+  visibility: hidden;
   padding-top: 50px;
 }
 #progress {
-  border-bottom: solid 3px green;
+  border-bottom: solid 5px green;
 }
 #startBtn { 
   width: 280px;
@@ -86,7 +89,7 @@ canvas#track {
 }
 span.flag {
   margin: 5px;
-  color: red;
+  color:red;
   font-weight: bold;
 }
 

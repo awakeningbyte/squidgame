@@ -3,7 +3,7 @@ const READY_COUNT = 3
 const MUSIC_BREAK = 5.38
 const TIME_GAP = 100
 const THRESHOLD = 5
-const MESSAGE_FONT = '32px serif'
+const MESSAGE_FONT = '42px serif'
 
 const congrSound = new Audio("medias/Congratulations.wav");
 const buzzSound = new Audio("medias/BuzzerWav.wav");
@@ -76,6 +76,7 @@ export class Game {
     }
 
     win() {
+        this.page.notify(MESSAGE_FONT, "red", "Win", 20, 50)
         this.started = false;
         clearInterval(this.interval)
         this.interval = null
@@ -111,13 +112,13 @@ export class Game {
         this.interval = setInterval(() => {
             let countdown = (this.duration - t + n);
             if (t < n) {
-                this.page.notify(MESSAGE_FONT, "#333", "READY " + (n - t), -10, 50)
+                this.page.notify(MESSAGE_FONT, "#fff", "READY " + (n - t), -10, 50)
             } else if (t == n) {
-                this.page.notify(MESSAGE_FONT, "#333", "GO!", -10, 50)
+                this.page.notify(MESSAGE_FONT, "#fff", "GO!", -10, 50)
                 this.started = true;
                 audio.play()
             } else if (countdown == 0) {
-                this.page.notify(MESSAGE_FONT, "red", "MOTION DETECTED", 20, 50)
+                this.page.notify(MESSAGE_FONT, "red", "Time Out", 20, 50)
                 clearInterval(this.interval)
                 this.started = false
                 this.loss()

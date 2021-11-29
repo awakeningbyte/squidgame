@@ -18,7 +18,7 @@ export class Game {
         this.red = false
         this.page = page
         this.interval = null
-
+        this.started = false
         this.page.onMoveEvent = (e) => {
             let currentTime = (performance || Date).now()
             if (this.started && this.interval && (e.timeStamp - currentTime) < TIME_GAP) {
@@ -39,9 +39,16 @@ export class Game {
 
         audio.onplay = () => {
             this.isRed = false;
-            this.page.showLight(false)
+            if (this.started) {
+
+                this.page.showLight(false)
+            }
+         
         }
         audio.ontimeupdate = () => {
+            if (!this.started) {
+                return
+            }
             if (audio.currentTime > MUSIC_BREAK) {
                 this.isRed = true
                 this.page.showLight(true);
@@ -61,7 +68,6 @@ export class Game {
     start() {
         this.page.showGame();
         this.traveled = 0;
-
         this.play(READY_COUNT, "")
     }
 

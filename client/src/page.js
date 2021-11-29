@@ -74,7 +74,11 @@ export class Page {
       }
    }
    get baseline() {
-      return (screen.availWidth / (360 * 6 * window.devicePixelRatio))
+      return (this.progressPanel.clientWidth / (360 * 6 * window.devicePixelRatio))
+   }
+
+   get trackLength() {
+      this.progressPanel.clientWidth
    }
 
    set onMoveEvent(handler) {

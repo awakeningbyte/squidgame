@@ -8,7 +8,7 @@ const MESSAGE_FONT = '32px serif'
 const congrSound = new Audio("medias/Congratulations.wav");
 const buzzSound = new Audio("medias/BuzzerWav.wav");
 const audio = new Audio("medias/DollSing.wav");
-
+let round = 0
 export class Game {
     constructor(duration, page) {
         this.duration = duration
@@ -44,6 +44,10 @@ export class Game {
                 this.page.showLight(false)
             }
          
+        }
+        audio.onended = () => {
+            round +=1
+            audio.playbackRate += round /10.00
         }
         audio.ontimeupdate = () => {
             if (!this.started) {
@@ -99,9 +103,10 @@ export class Game {
     }
 
     play(n) {
+        audio.playbackRate =1
         audio.play()
         audio.pause()
-        
+        round =0 
         let t = 0
         this.interval = setInterval(() => {
             let countdown = (this.duration - t + n);
@@ -127,7 +132,7 @@ export class Game {
                 
             }
 
-            if (this.traveled >= this.page.progress.clientWidth) {
+            if (this.traveled + 50>= this.page.progress.clientWidth) {
                 this.win(0);
             }
             t++;

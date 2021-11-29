@@ -5,18 +5,21 @@ export class Page {
       this.canvas = document.getElementById("monitor")
       this.ctx = this.canvas.getContext("2d")
       this.output = document.getElementById("output")
-      this.player = document.getElementById("player")
-      this.video = document.getElementById("video")
+      this.player = new Image()
+      this.player.src="images/player.jpg"
+      //this.progressPanel.appendChild(this.player)
       this.videoPanel = document.getElementById("video-panel")
       this.startBtn = document.getElementById("startBtn")
       this.alert = document.getElementById("alert")
-      //this.ctx.scale(1, 1) ;
-      //this.ctx.beginPath();
-     // this.ctx.arc(50, 55, 50, 0, 2*Math.PI);
-      //his.ctx.fill();
+      this.video = document.getElementById("video")
+      this.track = document.getElementById("track")
+      this.track.width = this.progressPanel.clientWidth
+      this.track.style.width = this.progressPanel.clientWidth+"px"
+      this.trackCtx = this.track.getContext("2d")
+      this.trackCtx.scale(1, 2)
    }
    showGame() {
-      this.player.style.transform = `translateX(0)`;
+      this.movePlayer(0)
       this.startBtn.style.visibility = "hidden"
       this.progressPanel.style.visibility = "visible"
    }
@@ -27,7 +30,7 @@ export class Page {
    }
    showLost() {
       this.output.style.visibility = "hidden"
-      this.videoPanel.style.backgroundImage = "url('images/200w.webp')";
+      this.videoPanel.style.backgroundImage = "url('images/dead.png')";
       setTimeout(() => this.reset(), 6000)
    }
 
@@ -39,14 +42,11 @@ export class Page {
    }
 
    movePlayer(traveled) {
-      this.player.style.transform = `translateX(${traveled}px)`;
+      this.trackCtx.clearRect(0,0,traveled, this.track.height);
+      this.trackCtx.drawImage(this.player, traveled, 0,35,35)
    }
 
    notify(font, color, text, x, y) {
-      //this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-      //this.ctx.font = font;
-      //this.ctx.fillStyle = color;
-      //this.ctx.fillText(text, x, y);
       this.alert.style.color = color;
       this.alert.innerText = text;
    }
@@ -74,7 +74,7 @@ export class Page {
       }
    }
    get baseline() {
-      return (this.progressPanel.clientWidth / (360 * 6 * window.devicePixelRatio))
+      return (this.progressPanel.clientWidth / (this.canvas.width * 5 * window.devicePixelRatio))
    }
 
    get trackLength() {
@@ -88,12 +88,4 @@ export class Page {
    set onPlayEvent(handler) {
       this.startBtn.addEventListener('click', handler, false)
    }
-}
-
-window.onload = function () {
-   // page.canvas.clientWidth= `${window.outerWidth}px`;
-}
-
-window.onresize = function () {
-   //page.canvas.clientWidth= `${window.outerWidth}px`;
 }

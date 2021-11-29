@@ -57,6 +57,7 @@ export class Camera {
     this.video = document.getElementById('video');
     this.canvas = document.getElementById('output');
     this.ctx = this.canvas.getContext('2d');
+    
   }
 
   /**
@@ -107,6 +108,7 @@ export class Camera {
 
     camera.canvas.width = videoWidth;
     camera.canvas.height = videoHeight;
+    
     const canvasContainer = document.querySelector('.canvas-wrapper');
     canvasContainer.style = `width: ${videoWidth}px; height: ${videoHeight}px`;
 

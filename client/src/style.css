@@ -1,8 +1,7 @@
-body{
-  max-width: 680px;
-}
 main {
   justify-content: center;
+  max-width: 800px;
+
 }
 header.game-header {
   background-color: rgba(0, 50, 0, 0.2);
@@ -16,7 +15,7 @@ header.game-header {
 }
 
 img.logo {
-  width: 25px;
+  width: 55px;
   margin-left: -50px;
   margin-right: 35px;
 }
@@ -45,9 +44,14 @@ img.logo {
   object-fit: contain;
   margin: auto;
 }
+
 #video-panel {
-  background: url("../assets/images/loading.gif");
+  height: 270px;
+  width: 360px;
+  background-image: url("../assets/images/Squid-Game-Doll.png");
   background-size: cover;
+  background-position-x: center;
+  background-position-y: top;
 }
 
 #video-panel video {
@@ -59,8 +63,7 @@ img.logo {
   display: none;
 }
 #progress-panel {
-  visibility: hidden;
-  padding: 20px;
+  visibility: visible;
   padding-top: 50px;
 }
 #progress {
@@ -78,10 +81,16 @@ img.logo {
 .float-right {
   float: right;
 }
+canvas#track {
+  height: 30px;
+}
+span.flag {
+  margin: 5px;
+  color: red;
+  font-weight: bold;
+}
+
 @media only screen and (max-width: 680px) {
-  #video-panel {
-    margin: auto;
-  }
   #startBtn {
     width: 100%;
     margin: 10px;

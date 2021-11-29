@@ -74,7 +74,7 @@ export class Page {
       }
    }
    get baseline() {
-      return (this.output.width + this.output.height)
+      return (screen.availWidth / (360 * 6 * window.devicePixelRatio))
    }
 
    set onMoveEvent(handler) {

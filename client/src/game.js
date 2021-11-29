@@ -84,10 +84,10 @@ export class Game {
         if (!this.started) {
             return;
         }
-        let dist = e.detail.dist * 425 / this.page.baseline
+        let dist = e.detail.speed * this.page.baseline
         this.traveled += dist
         this.traveled = Math.floor(this.traveled)
-        if (dist > THRESHOLD) {
+        if (dist ) {
             this.page.movePlayer(this.traveled);
         }
     }
